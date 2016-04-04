@@ -2,7 +2,7 @@
 
 namespace Blend.testing {
 
-    interface TestConfig {
+    export interface TestConfig {
         name: string;
         testFn: (t: TestRunner) => void;
         pass: number;
@@ -10,7 +10,7 @@ namespace Blend.testing {
         testn?: number;
     }
 
-    class TestRunner {
+    export class TestRunner {
 
         /**
          * The index of the next test case
@@ -44,12 +44,13 @@ namespace Blend.testing {
             var me = this;
             me.tests = [];
             me.logger = logger;
+            me.nextTestIndex = 0;
         }
 
         /**
          * defineTest can de used to define a test
          */
-        public defineTest(group: string, name: string, fn: (t: TestRunner) => void) {
+        public defineTest(name: string, fn: (t: TestRunner) => void) {
             var me = this;
             me.tests.push({
                 name: name,
@@ -81,9 +82,10 @@ namespace Blend.testing {
                     me.removeEventListener(window, 'load', doCallback);
                     me.testStarted = true;
                     if (me.tests.length !== 0) {
+                        me.logger.open();
                         me.runNextTest();
                     } else {
-                        me.logger.warn("No tests not run!");
+                        me.logger.warn("No tests to run!");
                     }
                 }
             }
@@ -99,11 +101,21 @@ namespace Blend.testing {
         public assertTrue(actual: boolean, assertDescription?: string) {
             var me = this;
             if (actual !== true) {
-                me.fail(`Failed to assert that ${actuall} is TRUE!`, actual, true, assertDescription);
+                me.fail(`Failed to assert that ${actual} is TRUE!`, actual, true, assertDescription);
             } else {
                 me.pass(assertDescription);
             }
         }
+        
+        public assertFalse(actual: boolean, assertDescription?: string) {
+            var me = this;
+            if (actual !== false) {
+                me.fail(`Failed to assert that ${actual} is FALSE!`, actual, true, assertDescription);
+            } else {
+                me.pass(assertDescription);
+            }
+        }
+        
 
         /**
          * Logs a test as failed
@@ -118,6 +130,7 @@ namespace Blend.testing {
                 failMessage: failMessage
             });
             me.currentTest.testn++;
+            me.currentTest.fail++;
         }
 
         /**
@@ -127,6 +140,7 @@ namespace Blend.testing {
             var me = this;
             me.logger.log("pass", assertDescription || 'Test #' + me.currentTest.testn);
             me.currentTest.testn++;
+            me.currentTest.pass++;
         }
 
         /**
@@ -160,6 +174,7 @@ namespace Blend.testing {
         private testFinished() {
             var me = this;
             me.logger.info("No more tests to run in this group.");
+            me.logger.close();
         }
 
         /**

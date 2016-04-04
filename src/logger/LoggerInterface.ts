@@ -1,20 +1,20 @@
 namespace Blend.logger {
 
-    export interface LogContext {
-        [s: string]: any;
-    }
-
     export interface LoggerInterface {
+        
+        open(): any;
+        
+        close(): any;
 
-        log(type: string, message: string, context?: LogContext);
+        log(type: string, message: string, context?: any): any;
 
-        warn(message: string, context?: LogContext);
+        warn(message: string, context?: any): any;
 
-        error(message: string, context?: LogContext);
+        error(message: string, context?: any): any;
 
-        info(message: string, context?: LogContext);
+        info(message: string, context?: any): any;
 
-        debug(message: string, context?: LogContext);
+        debug(message: string, context?: any): any
     }
 
 }

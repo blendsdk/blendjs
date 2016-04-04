@@ -1,0 +1,14 @@
+{
+    "compilerOptions": {
+        "outDir": "../dist/js/tests",
+        "noImplicitAny": true,
+        "removeComments": true,
+        "preserveConstEnums": true,
+        "declaration": false,
+        "module": "commonjs"
+    },
+    "exclude": [
+        "node_modules",
+        "test_runner"
+    ]
+}

@@ -1,0 +1,13 @@
+{
+    "compilerOptions": {
+        "outDir": "dist",
+        "out": "../dist/js/blend-debug.js",
+        "noImplicitAny": true,
+        "removeComments": true,
+        "preserveConstEnums": true,
+        "declaration": true
+    },
+    "exclude": [
+        "node_modules"
+    ]
+}

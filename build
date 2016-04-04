@@ -1,0 +1,10 @@
+#!/bin/bash
+
+rm -fR dist
+mkdir dist
+cd src
+tsc
+cd ../
+cd tests
+tsc
+
