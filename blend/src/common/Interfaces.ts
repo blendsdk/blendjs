@@ -29,7 +29,7 @@ interface CreateElementInterface {
     cls?: string | Array<string>
     listeners?: CreateElementEventListenersInterface
     text?: string
-    children?: Array<CreateElementInterface | HTMLElement | Blend.dom.Element>
+    children?: Array<CreateElementInterface | HTMLElement | Blend.dom.Element |  Blend.dom.ElementConfigBuilder>
     data?: any
     style?: StyleInterface,
     selectable?: boolean

@@ -58,6 +58,13 @@ namespace Blend.ui {
             }
         }
 
+        protected assignElementByOID(el: Blend.dom.Element, oid: string) {
+            var me: any = this;
+            if (me[oid] === null) {
+                me[oid] = el;
+            }
+        }
+
         protected render(): Blend.dom.Element {
             return Blend.dom.Element.create({});
         }

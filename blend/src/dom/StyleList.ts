@@ -53,7 +53,9 @@ namespace Blend.dom {
             Object.keys(me.styles).forEach(function(name: string) {
                 style += `${name}:${me.toUnit(name,me.styles[name])};`;
             });
-            el.style.cssText = style;
+            if (style !== '') {
+                el.style.cssText = style;
+            }
         }
 
         /**

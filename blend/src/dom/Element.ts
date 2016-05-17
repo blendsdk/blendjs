@@ -260,8 +260,13 @@ namespace Blend.dom {
         /**
          * Created an Element based on CreateElementInterface
          */
-        public static create(config: CreateElementInterface, elCallback?: Function, elCallbackScope?: any): Blend.dom.Element {
-            var me = this;
+        public static create(conf: CreateElementInterface | Blend.dom.ElementConfigBuilder, elCallback?: Function, elCallbackScope?: any): Blend.dom.Element {
+            var me = this, config: CreateElementInterface;
+            if (Blend.isInstanceOf(conf, Blend.dom.ElementConfigBuilder)) {
+                config = (<Blend.dom.ElementConfigBuilder>conf).getConfig()
+            } else {
+                config = <CreateElementInterface>conf;
+            }
             if (Blend.isObject(config)) {
                 var el: HTMLElement = document.createElement(config.tag || 'div');
                 for (var cfg in config) {
@@ -291,11 +296,13 @@ namespace Blend.dom {
                             if (!Blend.isArray(val)) {
                                 val = [val];
                             }
-                            val.forEach(function(child: HTMLElement | CreateElementInterface | Blend.dom.Element) {
+                            val.forEach(function(child: HTMLElement | CreateElementInterface | Blend.dom.Element | Blend.dom.ElementConfigBuilder) {
                                 if (child instanceof HTMLElement) {
                                     el.appendChild(<HTMLElement>child);
                                 } else if (child instanceof Blend.dom.Element) {
                                     el.appendChild((<Blend.dom.Element>child).getEl());
+                                } else if (child instanceof Blend.dom.ElementConfigBuilder) {
+                                    el.appendChild(Blend.dom.Element.create((<Blend.dom.ElementConfigBuilder>child), elCallback, elCallbackScope).getEl());
                                 } else {
                                     el.appendChild(Blend.dom.Element.create(<CreateElementInterface>child, elCallback, elCallbackScope).getEl());
                                 }
